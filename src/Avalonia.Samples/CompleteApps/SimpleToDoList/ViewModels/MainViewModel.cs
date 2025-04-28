@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -40,9 +41,15 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand (CanExecute = nameof(CanAddItem))]
     private void AddItem()
     {
+        string? content = NewItemContent?.Trim();
+
+        // Replace "sleep" with "zzzzzzz"
+        if (string.Equals(content, "sleep", StringComparison.OrdinalIgnoreCase))
+            content = "zzzzzzz";
+
         // Add a new item to the list
-        ToDoItems.Add(new ToDoItemViewModel() {Content = NewItemContent});
-        
+        ToDoItems.Add(new ToDoItemViewModel() { Content = content });
+
         // reset the NewItemContent
         NewItemContent = null;
     }
